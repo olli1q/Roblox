@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox homepage</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body style="margin:0; padding:0; background:#141414; color:white; font-family:Arial, sans-serif;">
+<script>
+(function(){
+  if (document.getElementById('rbx-fake-ban-full')) return;
+
+  function formatDate(date) {
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let year = date.getFullYear();
+    let hours = date.getHours();
+    let minutes = date.getMinutes().toString().padStart(2,'0');
+    let seconds = date.getSeconds().toString().padStart(2,'0');
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    return `${month}/${day}/${year} ${hours}:${minutes}:${seconds} ${ampm} (CT)`;
+  }
+
+  const now = new Date();
+  const reviewedDate = formatDate(now);
+  const reActivateDate = formatDate(new Date(now.getTime() + 3*24*60*60*1000));
+
+  const container = document.createElement('div');
+  container.id = 'rbx-fake-ban-full';
+  Object.assign(container.style, {
+    position: 'fixed',
+    inset: '0',
+    background: '#2b2b2b',
+    color: '#ddd',
+    zIndex: '2147483647',
+    fontFamily: '"Arial", sans-serif',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    padding: '60px 100px',
+    overflow: 'hidden',
+    lineHeight: '1.6',
+  });
+
+  const box = document.createElement('div');
+  Object.assign(box.style, {
+    background: '#3a3a3a',
+    padding: '40px',
+    borderRadius: '12px',
+    maxWidth: '800px',
+    width: '100%',
+    color: '#ddd',
+    marginLeft: '40px',
+  });
+
+  const title = document.createElement('h1');
+  title.innerText = 'Banned for 3 Days';
+  Object.assign(title.style, {
+    fontSize: '28px',
+    fontWeight: '400',
+    color: '#fff',
+    marginBottom: '24px',
+    textAlign: 'left',
+  });
+
+  const content = document.createElement('div');
+  content.style.textAlign = 'left';
+  content.innerHTML = `
+    <p>Our content monitors have determined that your behavior at Roblox has been in violation of our <a href="#" style="color:#3ba9fc;text-decoration:none;">Terms of Use</a>.</p>
+    <p><strong>Reviewed:</strong> ${reviewedDate}</p>
+    <p><strong>Moderator Note:</strong> Roblox does not permit bypasses of our systems that keep our platform and community safe and secure.</p>
+
+    <div style="border:1px solid #fff;padding:14px 14px;margin:16px 0;border-radius:2px;">
+      <p style="margin:0 0 10px 0; color:#fff;">
+        <span style="color:#ddd;"><strong>Reason:</strong></span> Misusing Roblox Systems
+      </p>
+      <p style="margin:0; color:#fff;">
+        <span style="color:#ddd;"><strong>Offensive Item:</strong></span> Asset Name: ExampleAsset123 ID: 978483674
+      </p>
+    </div>
+
+    <p>Please abide by the <a href="#" style="color:#3ba9fc;text-decoration:none;">Roblox Community Guidelines</a> so that Roblox can be fun for users of all ages.</p>
+    <p>Your account has been disabled. You may re-activate it after ${reActivateDate}.</p>
+    <p>If you wish to appeal, please contact us via the <a href="#" style="color:#3ba9fc;text-decoration:none;">Support Form</a>.</p>
+  `;
+
+  const logout = document.createElement('button');
+  logout.innerText = 'Logout';
+  Object.assign(logout.style, {
+    background: '#3a3a3a',
+    color: '#fff',
+    border: '1px solid #fff',
+    padding: '8px 20px',
+    borderRadius: '4px',
+    fontWeight: '400',
+    fontSize: '14px',
+    margin: '24px auto 0 auto',
+    cursor: 'pointer',
+    display: 'block',
+    transition: 'background 0.2s ease, color 0.2s ease',
+  });
+  logout.addEventListener('mouseenter', () => logout.style.background = '#4a4a4a');
+  logout.addEventListener('mouseleave', () => logout.style.background = '#3a3a3a');
+
+  logout.addEventListener('click', () => {
+    container.innerHTML = '';
+
+    const root = document.createElement('div');
+    Object.assign(root.style, {
+      position: 'fixed',
+      inset: '0',
+      background: '#141414',
+      zIndex: '2147483647',
+      fontFamily: 'Arial, sans-serif',
+      color: '#fff',
+      userSelect: 'none',
+      overflow: 'hidden',
+    });
+
+    const topBar = document.createElement('div');
+    Object.assign(topBar.style, {
+      width: '100%',
+      height: '50px',
+      background: '#1c1c1c',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 16px',
+      boxSizing: 'border-box',
+      borderBottom: '1px solid #2a2a2a',
+      gap: '20px',
+    });
+
+    const leftNav = document.createElement('div');
+    Object.assign(leftNav.style, {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '40px',
+    });
+
+    // hamburger-menu ikon
+    const menuIcon = document.createElement('div');
+    Object.assign(menuIcon.style, {
+      width: '24px',
+      height: '16px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      cursor: 'pointer',
+    });
+
+    ['#fff','#fff','#fff'].forEach(color => {
+      const bar = document.createElement('div');
+      Object.assign(bar.style, {
+        height: '3px',
+        width: '100%',
+        background: color,
+        borderRadius: '2px',
+      });
+      menuIcon.appendChild(bar);
+    });
+
+    leftNav.appendChild(menuIcon);
+
+    const nav = document.createElement('div');
+    Object.assign(nav.style, {
+      display: 'flex',
+      gap: '40px',
+      fontSize: '16px', // gjort større
+      fontWeight: '600',
+    });
+
+    ['Discover', 'Marketplace', 'Create', 'Robux'].forEach(text => {
+      const link = document.createElement('div');
+      link.innerText = text;
+      Object.assign(link.style, {
+        cursor: 'pointer',
+        color: '#fff',
+        fontWeight: '600',
+        fontSize: '16px', // gjort større
+      });
+      link.addEventListener('mouseenter', () => link.style.textDecoration = 'underline');
+      link.addEventListener('mouseleave', () => link.style.textDecoration = 'none');
+      nav.appendChild(link);
+    });
+
+    const searchInput = document.createElement('input');
+    searchInput.placeholder = 'Search';
+    Object.assign(searchInput.style, {
+      flexGrow: '2',
+      maxWidth: '500px',
+      padding: '6px 10px',
+      borderRadius: '4px',
+      border: '1px solid #444',
+      background: '#2a2a2a',
+      color: '#fff',
+      marginLeft: '20px',
+    });
+
+    leftNav.appendChild(nav);
+    leftNav.appendChild(searchInput);
+
+    const signUpBtn = document.createElement('button');
+    signUpBtn.innerText = 'Sign Up';
+    Object.assign(signUpBtn.style, {
+      background: '#00a2ff',
+      border: 'none',
+      borderRadius: '4px',
+      padding: '8px 16px',
+      color: '#fff',
+      fontWeight: '600',
+      cursor: 'pointer',
+    });
+
+    topBar.appendChild(leftNav);
+    topBar.appendChild(signUpBtn);
+
+    const cardWrapper = document.createElement('div');
+    Object.assign(cardWrapper.style, {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '80px',
+    });
+
+    const card = document.createElement('div');
+    Object.assign(card.style, {
+      width: '360px',
+      background: '#2a2a2f',
+      borderRadius: '0px',
+      padding: '26px 28px',
+      boxSizing: 'border-box',
+      boxShadow: '0 6px 18px rgba(0,0,0,0.6)',
+      textAlign: 'center',
+    });
+
+    const loginTitle = document.createElement('div');
+    loginTitle.innerText = 'Login to Roblox';
+    Object.assign(loginTitle.style, {
+      fontSize: '22px',
+      fontWeight: '900',
+      marginBottom: '16px',
+      color: '#fff'
+    });
+
+    function makeInput(placeholder, type='text') {
+      const input = document.createElement('input');
+      input.type = type;
+      input.placeholder = placeholder;
+      Object.assign(input.style, {
+        width: '100%',
+        padding: '10px 12px',
+        marginBottom: '10px',
+        background: '#3a3a40',
+        border: '1px solid #444',
+        borderRadius: '6px',
+        color: '#fff',
+        fontSize: '14px',
+        boxSizing: 'border-box',
+      });
+      return input;
+    }
+
+    const usernameInput = makeInput('Username/Email/Phone', 'text');
+    const passwordInput = makeInput('Password', 'password');
+
+    const loginBtn = document.createElement('button');
+    loginBtn.type = 'button';
+    loginBtn.innerText = 'Log In';
+    Object.assign(loginBtn.style, {
+      width: '100%',
+      padding: '10px 12px',
+      background: 'transparent',
+      border: '1px solid #666',
+      borderRadius: '6px',
+      color: '#fff',
+      fontSize: '14px',
+      fontWeight: '600',
+      cursor: 'pointer',
+      marginTop: '6px',
+    });
+
+    const forgot = document.createElement('div');
+    forgot.innerText = 'Forgot Password or Username?';
+    Object.assign(forgot.style, {
+      fontSize: '13px',
+      color: '#cfcfcf',
+      marginTop: '12px',
+    });
+
+    const hr = document.createElement('div');
+    Object.assign(hr.style, {
+      height: '1px',
+      background: '#3b3b3b',
+      margin: '14px 0',
+    });
+
+    function makeSecondary(text) {
+      const b = document.createElement('button');
+      b.innerText = text;
+      Object.assign(b.style, {
+        width: '100%',
+        padding: '10px 12px',
+        background: '#3a3a40',
+        border: '1px solid #46464a',
+        borderRadius: '6px',
+        color: '#e9e9e9',
+        fontSize: '13px',
+        cursor: 'pointer',
+        marginBottom: '8px',
+      });
+      b.addEventListener('click', e => e.preventDefault());
+      return b;
+    }
+
+    const sec1 = makeSecondary('Email Me a One-Time Code');
+    const sec2 = makeSecondary('Use Another Device');
+
+    const signup = document.createElement('div');
+    signup.innerHTML = `Don't have an account? <span style="color:#9ccbff; text-decoration: underline; cursor: default;">Sign Up</span>`;
+    Object.assign(signup.style, {
+      marginTop: '10px',
+      fontSize: '13px',
+      color: '#cfcfcf'
+    });
+
+    card.appendChild(loginTitle);
+    card.appendChild(usernameInput);
+    card.appendChild(passwordInput);
+    card.appendChild(loginBtn);
+    card.appendChild(forgot);
+    card.appendChild(hr);
+    card.appendChild(sec1);
+    card.appendChild(sec2);
+    card.appendChild(signup);
+
+    cardWrapper.appendChild(card);
+
+    root.appendChild(topBar);
+    root.appendChild(cardWrapper);
+    document.body.appendChild(root);
+
+    function onKeyLogin(e){ if (e.key === 'Escape') { root.remove(); document.removeEventListener('keydown', onKeyLogin); } }
+    document.addEventListener('keydown', onKeyLogin);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') container.remove();
+  });
+
+  box.appendChild(title);
+  box.appendChild(content);
+  box.appendChild(logout);
+  container.appendChild(box);
+  document.body.appendChild(container);
+})();
+</script>
+</body>
+</html>
